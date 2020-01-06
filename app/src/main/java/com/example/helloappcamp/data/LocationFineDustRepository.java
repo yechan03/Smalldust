@@ -6,29 +6,37 @@ import com.example.helloappcamp.util.FineDustUtil;
 
 import retrofit2.Callback;
 
-public class LocationFindDustRepository implements FineDustRepository {
+public class LocationFineDustRepository implements FineDustRepository {
     private FineDustUtil mFineDustUtil;
     private double mLatitude;
     private double mLongitude;
 
 
 
-    public LocationFindDustRepository(){
+    public LocationFineDustRepository(){
+
         mFineDustUtil = new FineDustUtil();
+
     }
-    public LocationFindDustRepository(double mLatitude, double mLongitude) {
-        this.mLatitude = mLatitude;
-        this.mLongitude = mLongitude;
+
+    public LocationFineDustRepository(double lat, double lng) {
+        this.mLatitude = lat;
+        this.mLongitude = lng;
     }
 
 
     @Override
     public boolean isAvailable() {
+        if(mLatitude !=0.0 && mLongitude != 0.0){
+            return true;
+        }
         return false;
     }
 
     @Override
     public void getFindDustData(Callback<Finedust> callback) {
+
+        mFineDustUtil.getApi().getFineDust(mLatitude,mLongitude).enqueue(callback);
 
     }
 }
